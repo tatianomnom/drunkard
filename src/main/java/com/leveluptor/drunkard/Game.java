@@ -1,4 +1,4 @@
-package com.tatianomnom.drunkard;
+package com.leveluptor.drunkard;
 
 import java.util.ArrayList;
 import java.util.List;
