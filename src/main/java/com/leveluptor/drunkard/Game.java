@@ -6,13 +6,13 @@ import java.util.List;
 public class Game {
     Deck deck = new Deck();
 
-    List<Player> players = new ArrayList<>();
+    List<Player> allPlayers = new ArrayList<>();
 
     public static Game withPlayers(int numberOfPlayers) {
 
         Game game = new Game();
         for (int i = 0; i < numberOfPlayers; i++) {
-            List<Player> gamePlayers = game.players;
+            List<Player> gamePlayers = game.allPlayers;
             gamePlayers.add(new Player("Player " + i));
         }
 
@@ -21,42 +21,51 @@ public class Game {
 
     public void dealCards() {
         deck.shuffle();
-        while (deck.cards.size() >= players.size()) {
-            for (Player player : players) {
+        while (deck.cards.size() >= allPlayers.size()) {
+            for (Player player : allPlayers) {
                 player.cards.add(deck.cards.pop());
             }
         }
     }
 
     public void playOneRound() {
-        Card.Rank temporaryMaxRank = null;
-        List<Player> playersWithTopCard = new ArrayList<>();
-        List<Card> cardsInCurrentRound = new ArrayList<>();
+        System.out.println("---One real round started");
+        playOneRound(allPlayers);
+    }
+
+    public void playOneRound(List<Player> players) {
+
+        int tmpMaxRank = -1;
+        List<Player> playersWithTopRanks = new ArrayList<>();
+
         for (Player player : players) {
             player.revealTopCard();
-            Card card = player.getStaging().peek();
-
-            System.out.println(player.name + " opens " + card.toString());
-
-            cardsInCurrentRound.add(card);
-
-            if (temporaryMaxRank == null) {
-                temporaryMaxRank = card.getRank();
-            }
-
-            //чето тут не то
-            if (card.getRank().compareTo(temporaryMaxRank) >= 0) {
-                if (card.getRank().compareTo(temporaryMaxRank) > 0) {
-                    playersWithTopCard.clear();
-                    System.out.println("Temporary max rank becomes " + temporaryMaxRank.toString());
-                }
-                temporaryMaxRank = card.getRank();
-                System.out.println("Player with top card: " + player.name);
-                playersWithTopCard.add(player);
+            Card topStagingCard = player.getStaging().peek();
+            System.out.println(player.name + " opens " + topStagingCard.toString());
+            if (topStagingCard.getRank().ordinal() > tmpMaxRank) {
+                tmpMaxRank = topStagingCard.getRank().ordinal();
+                playersWithTopRanks.clear();
+                playersWithTopRanks.add(player);
+            } else if (topStagingCard.getRank().ordinal() == tmpMaxRank) {
+                playersWithTopRanks.add(player);
             }
         }
 
-        playersWithTopCard.get(0).cards.addAll(cardsInCurrentRound);
+        if (playersWithTopRanks.size() > 1) {
+            playOneRound(playersWithTopRanks);
+        } else {
+            List<Card> cardsForWinner = new ArrayList<>();
+            for (Player p : allPlayers) {
+                cardsForWinner.addAll(p.giveStagingCards());
+            }
+            System.out.println("The winner is " + playersWithTopRanks.get(0).name + " and he gets:");
+            for (Card card : cardsForWinner) {
+                System.out.println(card);
+                playersWithTopRanks.get(0).cards.addLast(card);
+            }
+            players.forEach(p -> System.out.println("After round " + p.name + " has " + p.cards.size() + " cards"));
+
+        }
     }
 
 }

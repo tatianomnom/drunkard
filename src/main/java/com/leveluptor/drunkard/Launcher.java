@@ -2,12 +2,12 @@ package com.leveluptor.drunkard;
 
 public class Launcher {
     public static void main(String[] args) {
-        Game game = Game.withPlayers(2);
+        Game game = Game.withPlayers(4);
         game.dealCards();
-        game.playOneRound();
-//        game.playOneRound();
-//        game.playOneRound();
-//        game.playOneRound();
+
+        for (int i = 0; i < 10; i++) {
+            game.playOneRound();
+        }
     }
 
 

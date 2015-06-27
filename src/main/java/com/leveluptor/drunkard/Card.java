@@ -19,8 +19,9 @@ public class Card {
         HEARTS, DIAMONDS, CLUBS, SPADES
     }
 
+    // I forgot how guy between Ten and Queen is called in English, but Lord Jaraxxus turned out to be a good fit.
     enum Rank {
-        TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JARAXXUS, QUEEN, KING
+        TWO, THREE, FOUR/*, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JARAXXUS, QUEEN, KING*/
     }
 
     @Override
