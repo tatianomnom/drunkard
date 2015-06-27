@@ -10,6 +10,6 @@ The rules are as follows:
 - First class collections
 - One dot per line
 - Don’t abbreviate
-- Keep all entities small
+- Keep all entities small (no class over 50 lines and no package over 10 files)
 - No classes with more than two instance variables
 - No getters/setters/properties
