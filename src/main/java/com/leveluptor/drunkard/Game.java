@@ -29,7 +29,7 @@ public class Game {
     }
 
     public void playOneRound() {
-        System.out.println("---One real round started");
+        System.out.println("---Round started");
         playOneRound(allPlayers);
     }
 

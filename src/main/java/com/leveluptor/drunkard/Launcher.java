@@ -5,7 +5,7 @@ public class Launcher {
         Game game = Game.withPlayers(4);
         game.dealCards();
 
-        for (int i = 0; i < 10; i++) {
+        while (true) {
             game.playOneRound();
         }
     }
